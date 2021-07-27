@@ -775,6 +775,7 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
     onChangeText, // destructuring here stops this being set after onChangeText={_handleChangeText}
     clearButtonMode,
     InputComp,
+    ParentComp,
     ...userProps
   } = props.textInputProps;
   const TextInputComp = InputComp || TextInput;
@@ -794,7 +795,8 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
           ]}
         >
           {_renderLeftButton()}
-          <TextInputComp
+       {ParentComp ? <ParentComp>
+            <TextInputComp
             ref={inputRef}
             style={[
               props.suppressDefaultStyles ? {} : defaultStyles.textInput,
@@ -822,6 +824,34 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
             onChangeText={_handleChangeText}
             {...userProps}
           />
+       </ParentComp> :    <TextInputComp
+            ref={inputRef}
+            style={[
+              props.suppressDefaultStyles ? {} : defaultStyles.textInput,
+              props.styles.textInput,
+            ]}
+            value={stateText}
+            placeholder={props.placeholder}
+            onFocus={
+              onFocus
+                ? () => {
+                    _onFocus();
+                    onFocus();
+                  }
+                : _onFocus
+            }
+            onBlur={
+              onBlur
+                ? (e) => {
+                    _onBlur(e);
+                    onBlur();
+                  }
+                : _onBlur
+            }
+            clearButtonMode={clearButtonMode || 'while-editing'}
+            onChangeText={_handleChangeText}
+            {...userProps}
+          />}
           {_renderRightButton()}
         </View>
       )}
