@@ -776,6 +776,7 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
     clearButtonMode,
     InputComp,
     ParentComp,
+    ParentCompProps,
     ...userProps
   } = props.textInputProps;
   const TextInputComp = InputComp || TextInput;
@@ -795,7 +796,7 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
           ]}
         >
           {_renderLeftButton()}
-       {ParentComp ? <ParentComp>
+       {ParentComp ? <ParentComp {...ParentCompProps}>
             <TextInputComp
             ref={inputRef}
             style={[
